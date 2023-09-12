@@ -19,6 +19,7 @@ pokeApi.getPokemonDetail = (pokemon) => {
     return fetch(pokemon.url)
             .then(response => response.json())
             .then(convertPokeApiDetailToPokemon)
+            .catch(error => console.error(error))
 }
 
 pokeApi.getPokemons = (offset = 0, limit = 10) => {
@@ -29,4 +30,5 @@ pokeApi.getPokemons = (offset = 0, limit = 10) => {
         .then(pokemons => pokemons.map(pokeApi.getPokemonDetail))
         .then(detailRequests => Promise.all(detailRequests))
         .then(pokemonsDetails => pokemonsDetails)
+        .catch(error => console.error(error))
 }  

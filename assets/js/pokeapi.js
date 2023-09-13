@@ -15,21 +15,25 @@ function convertPokeApiDetailToPokemon(pokeDetail) {
     return pokemon
 }
 
-pokeApi.getPokemonDetail = (pokemon) => {
-    return fetch(pokemon.url)
-            .then(response => response.json())
-            .then(convertPokeApiDetailToPokemon)
-            .catch(error => console.error(error))
+pokeApi.getPokemonDetail = async (pokemon) => {
+    try { 
+        const response = await fetch(pokemon.url)
+        const data = await response.json();
+        return convertPokeApiDetailToPokemon(data)
+    }  catch (error) {
+        console.error(error);
+    }
 }
 
 pokeApi.getPokemons = async (offset = 0, limit = 10) => {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`)
-	if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
-	}
-	const jsonBody = await response.json();
-  	const pokemons = await jsonBody.results;
-    const detailRequests = await pokemons.map(pokeApi.getPokemonDetail);
-    const pokemonsDetails = await Promise.all(detailRequests)
-    return pokemonsDetails;
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`)
+        const jsonBody = await response.json();
+        const pokemons = await jsonBody.results;
+        const detailRequests = await pokemons.map(pokeApi.getPokemonDetail);
+        const pokemonsDetails = await Promise.all(detailRequests)
+        return pokemonsDetails;
+    } catch {
+        console.error(error);
+    }
 }

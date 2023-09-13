@@ -1,5 +1,5 @@
 function convertPokemonToLi(pokemon) {
-    var typeList = pokemon.types.map(type => `<li class="type">${type}</li>`)
+    const typeList = pokemon.types.map(type => `<li class="type">${type}</li>`)
     return  `
         <li class="pokemon ${pokemon.type}">
             <span class="number">#${pokemon.number}</span>

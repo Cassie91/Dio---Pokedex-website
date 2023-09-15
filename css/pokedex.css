@@ -146,6 +146,11 @@
   color: #fff;
 }
 
+.pagination button:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 380px) {
   img {
     max-width: 100%;
